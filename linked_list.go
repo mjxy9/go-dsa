@@ -63,6 +63,32 @@ func DeleteAtBegining(head **Node) {
 	*head = ((*head).Next)
 }
 
+func DeleteAtEnd(head **Node) {
+	
+	temp := *head
+
+	for temp.Next.Next != nil {
+		
+		temp = temp.Next
+	}
+
+	temp.Next = nil
+}
+
+func DeleteAtMiddle(head **Node, position int) {
+	
+	temp := *head
+
+	for index := 2; index < position; index++ {
+		
+		if temp.Next != nil {
+			temp = temp.Next
+		}
+	}
+
+	temp.Next = temp.Next.Next
+}
+
 func main() {
 	
 	commands := []string{
@@ -81,7 +107,7 @@ func main() {
 	}
 	
 	InsertAtMiddle(&head, "zip -r .", 4)
-	DeleteAtBegining(&head)
-	DeleteAtBegining(&head)
+	DeleteAtMiddle(&head, 3)
+	DeleteAtMiddle(&head, 3)
 	Traversal(&head)
 }
