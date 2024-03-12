@@ -63,21 +63,4 @@ func (q *SimpleQueue) Print() {
 	}
 }
 
-func main() {
-	
-	queue := NewSimpleQueue(4)
 
-	queue.Enqueue(1)
-	queue.Enqueue(2)
-	queue.Enqueue(3)
-	queue.Enqueue(4)
-	
-	queue.Dequeue()
-	queue.Dequeue()
-	queue.Dequeue()
-	queue.Dequeue()
-
-	queue.Enqueue(5)
-
-	queue.Print()
-}
