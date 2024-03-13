@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 type Node struct {
 	Data string
@@ -89,6 +92,22 @@ func DeleteAtMiddle(head **Node, position int) {
 	temp.Next = temp.Next.Next
 }
 
+func Search(head **Node, key string) bool {
+	
+	temp := *head
+
+	for temp != nil {
+		
+		if temp.Data == key {
+
+			return true
+		}
+		temp = temp.Next
+	}
+
+	return false
+}
+
 func main() {
 	
 	commands := []string{
@@ -107,7 +126,5 @@ func main() {
 	}
 	
 	InsertAtMiddle(&head, "zip -r .", 4)
-	DeleteAtMiddle(&head, 3)
-	DeleteAtMiddle(&head, 3)
 	Traversal(&head)
 }
