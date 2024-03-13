@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 type Node struct {
-	Data string
+	Data int
 	Next *Node
 }
 
-func InsertAtBegining(head **Node, data string) {
+func InsertAtBegining(head **Node, data int) {
 	
 	node := &Node{
 		Data: data,
@@ -20,7 +19,7 @@ func InsertAtBegining(head **Node, data string) {
 	*head = node
 }
 
-func InsertAtEnd(head **Node, data string) {
+func InsertAtEnd(head **Node, data int) {
 	
 	node := &Node{Data: data}
 	temp := *head
@@ -33,7 +32,7 @@ func InsertAtEnd(head **Node, data string) {
 	temp.Next = node
 }
 
-func InsertAtMiddle(head **Node, data string, position int) {
+func InsertAtMiddle(head **Node, data int, position int) {
 	
 	node := &Node{
 		Data: data,
@@ -56,7 +55,7 @@ func Traversal(head **Node) {
 	temp := *head
 
 	for temp != nil {
-		fmt.Printf("[%s]\n", temp.Data)
+		fmt.Printf("[%d]\n", temp.Data)
 		temp = temp.Next
 	}
 }
@@ -92,7 +91,7 @@ func DeleteAtMiddle(head **Node, position int) {
 	temp.Next = temp.Next.Next
 }
 
-func Search(head **Node, key string) bool {
+func Search(head **Node, key int) bool {
 	
 	temp := *head
 
@@ -108,23 +107,56 @@ func Search(head **Node, key string) bool {
 	return false
 }
 
+func Sort(head **Node) {
+	
+	current := *head
+	index := &Node{}
+	if current == nil {
+		return
+	}
+
+	for current != nil {
+	
+		index = current.Next
+
+		for index != nil {
+			
+			if current.Data > index.Data {
+				aux := current.Data
+				current.Data = index.Data
+				index.Data = aux
+			}
+
+			index = index.Next
+		}
+
+		current = current.Next
+	}
+
+}
+
 func main() {
 	
-	commands := []string{
-		"rm -rf main.zip",
-		"clear",
-		"cd ..",
-		"rpm -qa | grep name",
-		"cd /usr/lib",
-		"touch main.go",
+	data_array := []int{
+		11,
+		8,
+		18,
+		19,
+		20,
+		1,
+		200,
+		45,
+		60,
+		6,
 	}
 
-	head := &Node{Data: "code ."}
+	head := &Node{Data: 45}
 
-	for _, command := range commands {
-		InsertAtEnd(&head, command)
+	for _, data := range data_array {
+		InsertAtEnd(&head, data)
 	}
+
+	Sort(&head)
 	
-	InsertAtMiddle(&head, "zip -r .", 4)
 	Traversal(&head)
 }
