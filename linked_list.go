@@ -128,19 +128,3 @@ func Sort(head **Node) {
 	}
 }
 
-func main() {
-	
-	array := []int{
-		45, 19, 25, 31, 100, 64, 223, 18, 3, 39,
-	}
-	head := &Node{Data: 10}
-
-	for _, value := range array {
-		InsertAtEnd(&head, value)
-	}
-
-	Sort(&head)
-	
-	Traversal(&head)
-
-}
