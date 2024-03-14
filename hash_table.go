@@ -5,58 +5,84 @@ import (
 	"math"
 )
 
+type HashTable struct {
+	Array    []Set
+	Capacity int
+	Size     int
+}
+
 type Set struct {
-	key  int
-	data int
+	Key  int
+	Data int
 }
 
-func Insert(array []Set, capacity int, size *int, key int, data int) {
+func NewHashTable(capacity int) *HashTable {
 
-	index := HashByMultiplication(capacity, key)
-
-	if array[index].data == 0 {
-		array[index].key = key
-		array[index].data = data
-		*size += 1
-	} else if array[index].key == key {
-		array[index].data = data
+	return &HashTable{
+		Array:    make([]Set, capacity),
+		Capacity: capacity,
+		Size:     0,
 	}
 }
 
-func HashByModule(capacity int, key int) int {
-	return capacity % key
-}
+func (ht *HashTable) Insert(key, data int) {
 
-func HashByMultiplication(capacity int, key int) int {
+	index := ht.HashByMultiplication(key)
 
-	alpha := float64(0.458)
-	keyFloat := float64(key)
-
-	return int(math.Floor(float64(capacity) * math.Mod((keyFloat*alpha), 1)))
-}
-
-func Print(array []Set, capacity int) {
-
-	for index := 0; index < capacity; index++ {
-		if array[index].data != 0 {
-			fmt.Printf("[%d] = [%d]\n", array[index].key, array[index].data)
-		}
+	if ht.Array[index].Data == 0 {
+		ht.Array[index].Key = key
+		ht.Array[index].Data = data
+		ht.Size += 1
+	} else if ht.Array[index].Key == key {
+		ht.Array[index].Data = data
 	}
+}
+
+func (ht *HashTable) Remove(key int) {
+
+	index := ht.HashByMultiplication(key)
+
+	if ht.Array[index].Key == key {
+		ht.Array[index].Key = 0
+		ht.Array[index].Data = 0
+		ht.Size -= 1
+	}
+}
+
+func (ht *HashTable) Print() {
+
+	for index := 0; index < ht.Capacity; index++ {
+
+		fmt.Printf("[%d] = [%d]\n", ht.Array[index].Key, ht.Array[index].Data)
+	}
+}
+
+func (ht *HashTable) HashByMultiplication(key int) int {
+
+	fKey := float64(key)
+	alpha := (math.Sqrt(5) - 1.0) / 2.0
+
+	return int(math.Floor(float64(ht.Capacity) * math.Mod(fKey*alpha, 1.0)))
 }
 
 func main() {
 
 	capacity := 10
-	array := make([]Set, capacity)
-	size := 0
+	hashTable := NewHashTable(capacity)
 
-	Insert(array, capacity, &size, 1, 20)
-	Insert(array, capacity, &size, 2, 23)
-	Insert(array, capacity, &size, 3, 24)
-	Insert(array, capacity, &size, 4, 25)
-	Insert(array, capacity, &size, 5, 26)
-	Insert(array, capacity, &size, 6, 27)
+	hashTable.Insert(1, 100)
+	hashTable.Insert(2, 200)
+	hashTable.Insert(3, 300)
+	hashTable.Insert(4, 400)
+	hashTable.Insert(5, 500)
+	hashTable.Insert(6, 600)
+	hashTable.Insert(7, 700)
+	hashTable.Insert(8, 800)
+	hashTable.Insert(9, 900)
+	hashTable.Insert(10, 1000)
 
-	Print(array, capacity)
+	hashTable.Remove(1)
+	hashTable.Remove(10)
 
+	hashTable.Print()
 }
